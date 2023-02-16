@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <!-- import D3 Version 6 here or at the end of the body -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
+</head>
+<body>
+<svg width="1400" height="200" id="canvas" ></svg>
+<button type="button">Click Me!</button>
+<script>
+    function createVisualization(data) {
+        d3.csv("./cars.csv").then((data) => { //anonymous function returns w/ data
+            console.log("data", data)
+            d3.select('#canvas')
+                .selectAll('circle')
+                .data(data)
+                .join(
+                    function(enter) {
+                        return enter.append('circle')
+                            .style('opacity', 0.25);
+                    },
+                    function(update) {
+                        return update.style('opacity', 1);
+                    }
+                )
+                .attr('cx', function(d, i) {
+                    return scale(i);
+
+                })
+                .attr('cy', 50)
+                .attr('r', function(d) {
+                    console.log("r", d.hwy)
+                    return (0.5 * d.hwy);
+                })
+                .style('fill', "blue");
+        })
+    }
+    d3.select("button") //select button on the page, add a click event to it.
+        .on("click", createVisualization);
+
+
+    var scale = d3.scaleLinear() //returns a function you can invoke later!
+        .domain([0, 250]) //we have <250 cars
+        .range([0, 1400]); //our SVG is 1400px wide
+    let axis = d3.axisBottom(scale);
+    d3.select('#canvas').append("g")
+        .transition()
+        .call(axis).attr("transform", "translate(" + 0 + ", " + 90 + ")");
+</script>
+</body>
+</html>

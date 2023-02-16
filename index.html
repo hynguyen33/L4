@@ -5,118 +5,125 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <!-- import D3 Version 6 here or at the end of the body -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
-
-    <!-- load our custom D3 code (must happen after D3 is loaded) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
-
-    <!-- load our custom D3 code (must happen after D3 is loaded) -->
-
     <title>L4</title>
 </head>
 <body>
-    <svg width="2000" height="400" id="canvas" ></svg>
-    <button type="button">Click Me!</button>
+    <svg width="1500" height="1000" id="canvas" ></svg>
     <script>
-        const data = [
-            { name: 'London', population: 8674000},
-            { name: 'New York', population: 8406000},
-            { name: 'Sydney', population: 4293000},
-            { name: 'Paris', population: 2244000},
-            { name: 'Beijing', population: 11510000}
-        ]
+        const data = [10, 30, 40, 15, 100]
 
 
         let g = d3.select("#canvas")// var g becomes an array of 5 svg circles
             .selectAll("circle")
             .data(data)
-            .join("circle")
-        g.attr("fill", "steelblue")
-            .attr("r", function (d) {return +d.population / 1000000})
+            .join("circle") //mapping a circle to each array element
+
+        g.attr("fill", "steelblue")sgi
+            .attr("r", function (d) {return d})
             .attr("cx", function(d, i) { return 50*i })
             .attr("cy", function(d, i) { return 50*i })
+
+
         g.attr('transform', "translate(50,50)")
 
-        function getData() { //generate an array of random numbers
-            let data = [];
-            let itemSize = 0;
-
-
-            for(let i=0; i<10; i++) {
-                itemSize = Math.ceil(Math.random() * 5)*10;
-                data.push(itemSize);
-            }
-            return data;
-        }
-        function update(data) {
-            d3.select('#canvas')
-                .selectAll('circle')
-                .data(data)
-                .join(
-                    function(enter) {
-                        return enter.append('circle')
-                            .style('opacity', 0.25);
-                    },
-                    function(update) {
-                        return update.style('opacity', 1);
-                    }
-                )
-                g.attr('cx', function(d, i) {
-                    return i * 100;
-                })
-                g.attr('cy', 50)
-                g.attr('r', function(d) {
-                    return 0.5 * d;
-                })
-                .style('fill', 'orange');
-        }
-        function updateAll() {
-            let myData = getData(); //get new data from random generator
-            update(myData);//update the visualization
-        }
-        updateAll()
-        function createVisualization(data) {
-            d3.csv("./cars.csv").then((data) => { //anonymous function returns w/ data
-                d3.select('#canvas')
-                    .selectAll('circle')
-                    .data(data)
-                    .join(
-                        function(enter) {
-                            return enter.append('circle')
-                                .style('opacity', 0.25);
-                        },
-                        function(update) {
-                            return update.style('opacity', 1);
-                        }
-                    )
-                    .attr('cx', function(d, i) {
-                        return scale(i);
-                    })
-
-                    .attr('cx', function(d, i) {
-                        return i * 100;
-                    })
-                    .attr('cy', 50)
-                    .attr('r', function(d) {
-                        return 0.5 * d;
-
-                    })
-
-                    .style('fill','blue');
-            })
-        }
-        d3.select("button") //select button on the page, add a click event to it.
-            .on("click", createVisualization);
-
-
-        var scale = d3.scaleLinear() //returns a function you can invoke later!
-            .domain([0, 250]) //we have <250 cars
-            .range([0, 1400]); //our SVG is 1400px wide
-        let axis = d3.axisBottom(scale);
-
-
-        d3.select('#canvas').append("g")
-            .transition()
-            .call(axis).attr("transform", "translate(" + 0 + ", " + 90 + ")");
+        // const data = [
+        //     { name: 'London', population: 8674000},
+        //     { name: 'New York', population: 8406000},
+        //     { name: 'Sydney', population: 4293000},
+        //     { name: 'Paris', population: 2244000},
+        //     { name: 'Beijing', population: 11510000}
+        // ]
+        //
+        //
+        // let g = d3.select("#canvas")// var g becomes an array of 5 svg circles
+        //     .selectAll("circle")
+        //     .data(data)
+        //     .join("circle")
+        // g.attr("fill", "steelblue")
+        //     .attr("r", function (d) {return +d.population / 1000000})
+        //     .attr("cx", function(d, i) { return 50*i })
+        //     .attr("cy", function(d, i) { return 50*i })
+        // g.attr('transform', "translate(50,50)")
+        //
+        // function getData() { //generate an array of random numbers
+        //     let data = [];
+        //     let itemSize = 0;
+        //
+        //
+        //     for(let i=0; i<10; i++) {
+        //         itemSize = Math.ceil(Math.random() * 5)*10;
+        //         data.push(itemSize);
+        //     }
+        //     return data;
+        // }
+        // function update(data) {
+        //     d3.select('#canvas')
+        //         .selectAll('circle')
+        //         .data(data)
+        //         .join(
+        //             function(enter) {
+        //                 return enter.append('circle')
+        //                     .style('opacity', 0.25);
+        //             },
+        //             function(update) {
+        //                 return update.style('opacity', 1);
+        //             }
+        //         )
+        //         g.attr('cx', function(d, i) {
+        //             return i * 100;
+        //         })
+        //         g.attr('cy', 50)
+        //         g.attr('r', function(d) {
+        //             return 0.5 * d;
+        //         })
+        //         .style('fill', 'orange');
+        // }
+        // function updateAll() {
+        //     let myData = getData(); //get new data from random generator
+        //     update(myData);//update the visualization
+        // }
+        // updateAll()
+        // function createVisualization(data) {
+        //     d3.csv("./cars.csv").then((data) => { //anonymous function returns w/ data
+        //         d3.select('#canvas')
+        //             .selectAll('circle')
+        //             .data(data)
+        //             .join(
+        //                 function(enter) {
+        //                     return enter.append('circle')
+        //                         .style('opacity', 0.25);
+        //                 },
+        //                 function(update) {
+        //                     return update.style('opacity', 1);
+        //                 }
+        //             )
+        //             .attr('cx', function(d, i) {
+        //                 return scale(i);
+        //             })
+        //
+        //             .attr('cx', function(d, i) {
+        //                 return i * 100;
+        //             })
+        //             .attr('cy', 50)
+        //             .attr('r', function(d) {
+        //                 return 0.5 * d;
+        //             })
+        //             .style('fill','blue');
+        //     })
+        // }
+        // d3.select("button") //select button on the page, add a click event to it.
+        //     .on("click", createVisualization);
+        //
+        //
+        // var scale = d3.scaleLinear() //returns a function you can invoke later!
+        //     .domain([0, 250]) //we have <250 cars
+        //     .range([0, 1400]); //our SVG is 1400px wide
+        // let axis = d3.axisBottom(scale);
+        //
+        //
+        // d3.select('#canvas').append("g")
+        //     .transition()
+        //     .call(axis).attr("transform", "translate(" + 0 + ", " + 90 + ")");
 
 
 
